@@ -1,0 +1,6 @@
+reflex==0.7.14
+reflex-local-auth
+openai
+python-dotenv
+psycopg2-binary
+
