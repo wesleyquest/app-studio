@@ -1,5 +1,10 @@
-from .page import medical_record_page
-
+from .list import list_page
+from .detail import detail_page
+from .state import MRAState
+#
+#
 __all__ = [
-    "medical_record_page"
+    "list_page",
+    "MRAState",
 ]
+

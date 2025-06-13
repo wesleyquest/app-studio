@@ -6,7 +6,6 @@ from ..ui import dashboard_page
 def index_page() -> rx.Component:
     # Welcome Page (Index)
     my_child = rx.container(
-        rx.color_mode.button(position="bottom-left"),
         rx.vstack(
             rx.heading("Welcome to Reflex!", size="9"),
             rx.text(

@@ -30,19 +30,23 @@ def sidebar_item(
                 "border-radius": "0.5em",
             },
         ),
-        href=href,
         underline="none",
         weight="medium",
         width="100%",
+        href=href,
     )
-
 
 def sidebar_items() -> rx.Component:
     return rx.vstack(
-        sidebar_item("홈", "house", navigation.routes.HOME_ROUTE),
-        sidebar_item("의무기록 분석", "dock", navigation.routes.MRA_ROUTE),
-        sidebar_item("건강기록 분석", "dock", navigation.routes.HRA_ROUTE),
-        sidebar_item("RAG", "dock", navigation.routes.RAG_ROUTE),
+        sidebar_item("앱 목록", "layout-dashboard", navigation.routes.HOME_ROUTE),
+        sidebar_item("RAG", "app-window", navigation.routes.RAG_ROUTE),
+        rx.hstack(
+            rx.text("근로복지공단 AI"),
+            padding_x="0.5rem",
+            padding_top="0.75rem",
+        ),
+        sidebar_item("의무기록지 파일 분석", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/mra"),
+        sidebar_item("건강보험 내역 분석", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/hra"),
         spacing="1",
         width="100%",
     )
@@ -138,13 +142,16 @@ def sidebar_v1() -> rx.Component:
                                 width="100%",
                             ),
                             sidebar_items(),
+                            
+                            spacing="5",
+                            width="100%",
                         ),
                         top="auto",
                         right="auto",
                         height="100%",
                         width="20em",
                         padding="1.5em",
-                        bg=rx.color("accent", 1),
+                        bg=rx.color("accent", 2),
                     ),
                     width="100%",
                 ),
@@ -154,4 +161,5 @@ def sidebar_v1() -> rx.Component:
             padding_top="5em",
         ),
     )
+
 

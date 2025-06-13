@@ -1,8 +1,16 @@
+# 홈
 HOME_ROUTE="/"
-# 의무기록 분석
-MRA_ROUTE="/mra"
-# 건강보험 분석
-HRA_ROUTE="/hra"
 # RAG
 RAG_ROUTE="/rag"
+
+
+# 근로복지공단 APP
+## mra
+### 리스트
+MRA_ROUTE="/workers/[wonbu_no]/mra"
+### 디테일
+MRA_DETAIL_ROUTE="/workers/[wonbu_no]/mra/[mra_id]"
+## hra
+HRA_ROUTE="/workers/[wonbu_no]/hra"
+
 
