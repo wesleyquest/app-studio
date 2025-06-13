@@ -1,21 +1,21 @@
-## app-studio
+## app studio
+웨슬리퀘스트의 DATA, AI 기반 App 레포지토리
 
-#### (start)
-###### 1. uv
+## Getting Started
+#### 1. Installation
 uv sync --frozen --no-install-project --no-dev
 source .venv/bin/activate
-###### 2. reflex
+#### 2. Run
 reflex run
 
-#### (dev)
+## Development Process
+#### 1. Environment
 uv init --python 3.12
 uv add -r requirements.txt
 source .venv/bin/activate
 reflex init
-###### db
-(최초)
+#### 2. DB model
 reflex db init
-(db모델 변경 시)
 reflex db makemigrations
 reflex db migrate
 

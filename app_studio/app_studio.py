@@ -4,6 +4,7 @@ from rxconfig import config
 from . import navigation
 from .pages import index_page
 from . import mra, hra, rag
+from . import test
 #
 #
 app = rx.App(
@@ -18,7 +19,7 @@ app = rx.App(
     stylesheets=[
         "/fonts/myfont.css",
     ],
-    style = {"font_family": "NotoSansKR-Medium"}
+    style = {"font_family": "NotoSansKR-Regular"}
 )
 
 app.add_page(index_page,
@@ -26,10 +27,17 @@ app.add_page(index_page,
              title="HOME")
 
 app.add_page(
-    mra.medical_record_page,
+    mra.list_page,
+    on_load=[mra.MRAState.load_files, navigation.NavState.set_wonbu_no_var],
     route=navigation.routes.MRA_ROUTE,
-    title="MRA")
-
+    title="MRA - LIST")
+"""
+app.add_page(
+    mra.detail_page,
+    on_load=mra.MRAState.load_mra,
+    route=navigation.routes.MRA_DETAIL_ROUTE,
+    title="MRA - DETAIL")
+"""
 app.add_page(
     hra.health_record_page,
     route=navigation.routes.HRA_ROUTE,
@@ -39,4 +47,14 @@ app.add_page(
     rag.rag_page,
     route=navigation.routes.RAG_ROUTE,
     title="RAG")
+
+# test
+app.add_page(
+    test.test_page,
+    on_load=test.page.TestState.load_mra,
+    route="/test",
+    title="TEST"
+)
+
+
 

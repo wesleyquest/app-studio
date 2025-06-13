@@ -12,9 +12,15 @@ def navbar_v1() -> rx.Component:
                     #     height="auto",
                     #     border_radius="25%", bg-gray-600
                     # ),
-                    rx.el.div(
+                    rx.text(
                         "WQ",
-                        class_name="text-white font-medium text-lg mr-1.5 p-1.5 bg-slate-800 rounded",
+                        size="4",
+                        style={
+                            "color": "white",
+                            "background_color": "#646464",
+                            "padding": "6px",
+                            "border_radius": "5px"
+                        }
                     ),
                     rx.heading(
                         "App Studio", size="5", font_weight="bold"
@@ -29,8 +35,9 @@ def navbar_v1() -> rx.Component:
                         "Sign Up",
                         size="3",
                         variant="outline",
+                        color_scheme="gray",
                     ),
-                    rx.button("Log In", size="3"),
+                    rx.button("Log In", size="3", color_scheme="gray"),
                     spacing="4",
                     justify="end",
                 ),
@@ -41,9 +48,15 @@ def navbar_v1() -> rx.Component:
         rx.mobile_and_tablet(
             rx.hstack(
                 rx.hstack(
-                    rx.el.div(
+                    rx.text(
                         "WQ",
-                        class_name="text-white font-medium text-lg mr-1 p-1 bg-slate-800 rounded",
+                        size="3",
+                        style={
+                            "color": "white",
+                            "background_color": "#646464",
+                            "padding": "5px",
+                            "border_radius": "4px"
+                        }
                     ),
                     rx.heading(
                         "App Studio", size="5", font_weight="bold"
@@ -64,7 +77,7 @@ def navbar_v1() -> rx.Component:
                 align_items="center",
             ),
         ),
-        #bg=rx.color("accent", 3),
+        bg=rx.color("accent", 1),
         padding="1em",
         position="fixed",
         # top="0px",
