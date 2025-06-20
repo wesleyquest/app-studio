@@ -18,6 +18,7 @@ app = rx.App(
     ),
     stylesheets=[
         "/fonts/myfont.css",
+        "/styles/pdf_style.css",
     ],
     style = {"font_family": "NotoSansKR-Regular"}
 )
@@ -31,13 +32,13 @@ app.add_page(
     on_load=[mra.MRAState.load_files, navigation.NavState.set_wonbu_no_var],
     route=navigation.routes.MRA_ROUTE,
     title="MRA - LIST")
-"""
+
 app.add_page(
     mra.detail_page,
-    on_load=mra.MRAState.load_mra,
+    on_load=[mra.MRAState.get_file_path, navigation.NavState.set_wonbu_no_var],
     route=navigation.routes.MRA_DETAIL_ROUTE,
     title="MRA - DETAIL")
-"""
+
 app.add_page(
     hra.health_record_page,
     route=navigation.routes.HRA_ROUTE,
@@ -51,7 +52,7 @@ app.add_page(
 # test
 app.add_page(
     test.test_page,
-    on_load=test.page.TestState.load_mra,
+    #on_load=test.page.TestState.load_mra,
     route="/test",
     title="TEST"
 )

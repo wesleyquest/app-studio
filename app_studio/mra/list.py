@@ -24,7 +24,7 @@ def custom_file_upload() -> rx.Component:
             ),
         ),
         rx.text(
-            "확장자가 PDF(.pdf)인 파일 1개만 업로드 가능",
+            "확장자가 PDF(.pdf)인 파일 1개씩 업로드 가능",
             color_scheme="red",
             size="3",
             style={
@@ -57,8 +57,13 @@ def custom_file_upload() -> rx.Component:
         "display": "flex",
         "alignItems": "center",
         "justifyContent": "center",
-        "boxShadow": "0 1px 2px rgba(0, 0, 0, 0.05)",
+        #"boxShadow": "0 1px 2px rgba(0, 0, 0, 0.05)",
+        "_hover": {
+            "cursor": "pointer",
+            "bg": rx.color("accent", 4),
+        },
     },
+    box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
     # rx.upload.root prop
     max_files=1,
     accept={
@@ -163,10 +168,19 @@ def file_item(file):
                     ),                        
                     rx.box(
                         rx.link(
-                            rx.button("보 기"),
-                            #href=f"{MRAState.full_raw_path}/{file["name"]}"
-                            href=file_url, #"http://localhost:8000/_upload/mra/1234/sample_4.pdf"
-                            is_external=True,
+                            rx.button(
+                                "보 기",
+                                size="3",
+                                style={
+                                    "_hover": {
+                                    "cursor": "pointer",
+                                    "bg": rx.color("accent", 10),
+                                    }
+                                }
+                                ),
+                            href=f"{MRAState.full_raw_path}{file["name"]}",
+                            #href=file_url, #"http://localhost:8000/_upload/mra/1234/sample_4.pdf"
+                            #is_external=True,
                             ),
                         #rx.button("보 기", size="2", width="80px"),
                         text_align="end",
@@ -190,13 +204,15 @@ def list_page() -> rx.Component:
         # navigation
         rx.hstack(
             rx.icon("app-window"),
-            rx.text("의무기록 분석", size="4"),
+            rx.text("의무기록지 파일 분석", size="4"),
             align="start",
             padding_bottom="1em",
         ),
         # contents
         rx.vstack(
-            rx.text("아래 업로드 내역에서 파일을 선택하여 작업을 진행해 주세요 *", size="5"),
+            rx.text("아래 업로드 내역에서 파일을 선택하여 작업을 진행해 주세요 *", 
+                    size="5",
+                    font_family="NotoSansKR-Bold"),
             align="center",
             padding="2em",
         ),
@@ -217,6 +233,7 @@ def list_page() -> rx.Component:
                 width="800px", #75%
                 #height="50vh",
                 padding="1em",
+                box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
             ),
             align="center", # 큰 박스가 전체 페이지에서 센터
         ),

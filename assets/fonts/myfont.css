@@ -4,4 +4,9 @@
     font-weight: bold;
 }
 
+@font-face {
+    font-family: NotoSansKR-Bold;
+    src: url("/fonts/NotoSansKR-Bold.ttf");
+    font-weight: bold;
+}
 
