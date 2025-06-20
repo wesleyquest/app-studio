@@ -6,5 +6,6 @@ from .state import MRAState
 __all__ = [
     "list_page",
     "MRAState",
+    "detail_page"
 ]
 

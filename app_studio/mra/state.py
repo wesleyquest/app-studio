@@ -30,21 +30,29 @@ class MRAState(rx.State):
     uploaded_file: str = ""
     uploading: bool = False
     progress: int = 0
-    #
+    # 
     running: bool = False
     _n_tasks: int = 0
     #
-    base64_pdf: str = ""
+    # current file (detail)
+    file_path: str = ""
+    file_name: str = ""
+    file_page: int = 1
+    
+    @rx.event
+    def change_file_page(self) -> int:
+        self.file_page = 5
     
     @rx.var
     def wonbu_no_var(self) -> str:
         #print("MRAState wonbu_no var: ",  self.router.page.params.get("wonbu_no", "no data"))
         return self.router.page.params.get("wonbu_no", "none")
-    
+
     @rx.var
     def full_raw_path(self) -> str:
         return self.router.page.full_raw_path
-    
+
+    """
     @rx.event
     def load_mra(self):
         #file_path = "./uploaded_files/sample/sample_4_yp5cTN7dAH.pdf"
@@ -57,7 +65,16 @@ class MRAState(rx.State):
 
         # encode PDF
         self.base64_pdf = base64.b64encode(content).decode("utf-8")
-
+    """
+    @rx.event
+    def get_file_path(self):
+        wonbu_no = self.router.page.params.get("wonbu_no", "")
+        mra_id = self.router.page.params.get("mra_id", "")        
+        #self.file_path = f"{rx.get_upload_url("")}/mra/{wonbu_no}/{mra_id}.pdf"
+        self.file_path = f"mra/{wonbu_no}/{mra_id}.pdf"
+        self.file_name = f"{mra_id}.pdf"
+        #print(self.file_path)
+        
     @rx.event
     async def handle_upload(
         self, files: list[rx.UploadFile]
@@ -184,5 +201,6 @@ class MRAState(rx.State):
                     "size": file_size,
                 }
             )
-            
+
+
 
