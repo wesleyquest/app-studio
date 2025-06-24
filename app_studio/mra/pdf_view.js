@@ -10,7 +10,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
 
 export function PdfView(fileInfo) {
   const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(fileInfo.fileInfo[1]);
+  let [pageNumber, setPageNumber] = useState(fileInfo.fileInfo[1]);
   //const pageCount = Math.ceil(numPages)
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -27,8 +27,9 @@ export function PdfView(fileInfo) {
   //   setPageNumber(selectedPage);
   // };
   // //console.log(fileInfo.fileInfo)
-  console.log(fileInfo.fileInfo[0])
-  console.log(fileInfo.fileInfo[1])
+  //console.log(fileInfo.fileInfo[0])
+  //console.log(fileInfo.fileInfo[1])
+  pageNumber = fileInfo.fileInfo[1]
 
   return (
     <>

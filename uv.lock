@@ -47,6 +47,8 @@ dependencies = [
     { name = "dill" },
     { name = "openai" },
     { name = "psycopg2-binary" },
+    { name = "pypdf" },
+    { name = "pypdf2" },
     { name = "python-dotenv" },
     { name = "reflex" },
     { name = "reflex-local-auth" },
@@ -57,6 +59,8 @@ requires-dist = [
     { name = "dill", specifier = ">=0.3.8" },
     { name = "openai", specifier = ">=1.84.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
+    { name = "pypdf", specifier = ">=5.6.1" },
+    { name = "pypdf2", specifier = ">=3.0.1" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "reflex", specifier = "==0.7.14" },
     { name = "reflex-local-auth", specifier = ">=0.3.0" },
@@ -593,6 +597,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/fb/68/ce067f09fca4abeca8771fe667d89cc347d1e99da3e093112ac329c6020e/pyjwt-2.9.0.tar.gz", hash = "sha256:7e1e5b56cc735432a7369cbfa0efe50fa113ebecdc04ae6922deba8b84582d0c", size = 78825, upload-time = "2024-08-01T15:01:08.445Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/79/84/0fdf9b18ba31d69877bd39c9cd6052b47f3761e9910c15de788e519f079f/PyJWT-2.9.0-py3-none-any.whl", hash = "sha256:3b02fb0f44517787776cf48f2ae25d8e14f300e6d7545a4315cee571a415e850", size = 22344, upload-time = "2024-08-01T15:01:06.481Z" },
+]
+
+[[package]]
+name = "pypdf"
+version = "5.6.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/8e/9d9346c36bb02fc6d6e5c5412dcc104e422738c3391ef32032bcb7fb183f/pypdf-5.6.1.tar.gz", hash = "sha256:dde36cd67afe3afd733a562a0dd08a3c1dcdf01fe01de13785291319c8a883ff", size = 5025128, upload-time = "2025-06-22T11:05:25.587Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c5/16/a5619a9d9bd4601126b95a9026eccfe4ebb74d725b7fdf624680e5a1f502/pypdf-5.6.1-py3-none-any.whl", hash = "sha256:ff09d03d37addbc40f75db3624997a660ff5fe41c61e7ae4db6828dc3f581e4d", size = 304638, upload-time = "2025-06-22T11:05:24.285Z" },
+]
+
+[[package]]
+name = "pypdf2"
+version = "3.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/bb/18dc3062d37db6c491392007dfd1a7f524bb95886eb956569ac38a23a784/PyPDF2-3.0.1.tar.gz", hash = "sha256:a74408f69ba6271f71b9352ef4ed03dc53a31aa404d29b5d31f53bfecfee1440", size = 227419, upload-time = "2022-12-31T10:36:13.13Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/5e/c86a5643653825d3c913719e788e41386bee415c2b87b4f955432f2de6b2/pypdf2-3.0.1-py3-none-any.whl", hash = "sha256:d16e4205cfee272fbdc0568b68d82be796540b1537508cef59388f839c191928", size = 232572, upload-time = "2022-12-31T10:36:10.327Z" },
 ]
 
 [[package]]

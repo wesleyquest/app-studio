@@ -74,16 +74,8 @@ def navbar_v1() -> rx.Component:
                             rx.drawer.content(
                                 rx.vstack(
                                     rx.hstack(
-                                        rx.text(
-                                            "WQ",
-                                            size="4",
-                                            style={
-                                                "color": "white",
-                                                "background_color": "#646464",
-                                                "padding": "6px",
-                                                "border_radius": "5px"
-                                            }
-                                        ),
+                                        rx.avatar(fallback="WQ"),
+                                        
                                         rx.heading(
                                             "App Studio", size="5", font_weight="bold"
                                         ),
@@ -110,18 +102,9 @@ def navbar_v1() -> rx.Component:
                         ),
                         direction="left",
                     ),
-                    rx.text(
-                        "WQ",
-                        size="4",
-                        style={
-                            "color": "white",
-                            "background_color": "#646464",
-                            "padding": "6px",
-                            "border_radius": "5px"
-                        }
-                    ),
+                    rx.avatar(fallback="WQ"),
                     rx.heading(
-                        "App Studio", size="5", font_weight="bold"
+                        "App Studio", size="5", #font_weight="bold"
                     ),
                     align="center",
                     width="100%",

@@ -5,4 +5,6 @@ psycopg2-binary
 dill>=0.3.8
 #
 openai
+PyPDF2
+pypdf
 
