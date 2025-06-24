@@ -4,13 +4,17 @@ from . import routes
 #
 #
 class NavState(rx.State):
-    wonbu_no_var: str = "none"
-    
-    def set_wonbu_no_var(self):
-        # wonbu_no_var 세팅 : wonbu_no_var가 ""(초기값)이고, url에 값이 주어진 경우
-        if (self.wonbu_no_var == "none") & (self.router.page.params.get("wonbu_no", "none") != "none"):
-            self.wonbu_no_var = self.router.page.params.get("wonbu_no", "none")
-            print(f"set wonbu_no_var: {self.wonbu_no_var}")
+    @rx.var
+    def wonbu_no_var(self) -> str:
+        #print("MRAState wonbu_no var: ",  self.router.page.params.get("wonbu_no", "no data"))
+        return self.router.page.params.get("wonbu_no", "none")
+
+    #wonbu_no_var: str = "none"
+    #def set_wonbu_no_var(self):
+    #    # wonbu_no_var 세팅 : wonbu_no_var가 ""(초기값)이고, url에 값이 주어진 경우
+    #    if (self.wonbu_no_var == "none") & (self.router.page.params.get("wonbu_no", "none") != "none"):
+    #        self.wonbu_no_var = self.router.page.params.get("wonbu_no", "none")
+    #        print(f"set wonbu_no_var: {self.wonbu_no_var}")
 
     def to_home(self):
         return rx.redirect(routes.HOME_ROUTE)

@@ -6,7 +6,10 @@ from datetime import datetime
 import asyncio
 import base64
 from pathlib import Path
+from pypdf import PdfReader
+import json
 #
+from .models import Summary
 from .. import navigation
 #
 #            
@@ -25,23 +28,20 @@ def create_unique_filename(file_name: str):
     return  name + "_" + random_name + "." + ext
 
 class MRAState(rx.State):
+    # list
     files: List[dict] = [] 
-    #
     uploaded_file: str = ""
     uploading: bool = False
     progress: int = 0
-    # 
     running: bool = False
     _n_tasks: int = 0
-    #
-    # current file (detail)
-    file_path: str = ""
-    file_name: str = ""
-    file_page: int = 1
-    
-    @rx.event
-    def change_file_page(self) -> int:
-        self.file_page = 5
+    # detail
+    summaries: List[Summary] = []
+    current_file_number_of_pages: int = 0
+    current_file_datetime: str = ""
+    current_file_fullname: str = ""
+    current_file_size: str = ""
+    current_file_page: int = 1
     
     @rx.var
     def wonbu_no_var(self) -> str:
@@ -49,32 +49,10 @@ class MRAState(rx.State):
         return self.router.page.params.get("wonbu_no", "none")
 
     @rx.var
-    def full_raw_path(self) -> str:
-        return self.router.page.full_raw_path
+    def mra_id_var(self) -> str:
+        #print("MRAState wonbu_no var: ",  self.router.page.params.get("wonbu_no", "no data"))
+        return self.router.page.params.get("mra_id", "none")
 
-    """
-    @rx.event
-    def load_mra(self):
-        #file_path = "./uploaded_files/sample/sample_4_yp5cTN7dAH.pdf"
-        wonbu_no = self.router.page.params.get("wonbu_no", "")
-        mra_id = self.router.page.params.get("mra_id", "")
-        file_path = f"./uploaded_files/mra/{wonbu_no}/{mra_id}.pdf"
-        #print(file_path)
-        with open(file_path, "rb") as file:
-            content = file.read()    
-
-        # encode PDF
-        self.base64_pdf = base64.b64encode(content).decode("utf-8")
-    """
-    @rx.event
-    def get_file_path(self):
-        wonbu_no = self.router.page.params.get("wonbu_no", "")
-        mra_id = self.router.page.params.get("mra_id", "")        
-        #self.file_path = f"{rx.get_upload_url("")}/mra/{wonbu_no}/{mra_id}.pdf"
-        self.file_path = f"mra/{wonbu_no}/{mra_id}.pdf"
-        self.file_name = f"{mra_id}.pdf"
-        #print(self.file_path)
-        
     @rx.event
     async def handle_upload(
         self, files: list[rx.UploadFile]
@@ -187,10 +165,15 @@ class MRAState(rx.State):
         #print(file_paths)
         for file_path in file_paths:
             file_info = os.stat(file_path)
+            # 파일 FULLNAME (확장자 포함)
             file_fullname = file_path.split("/")[-1] # 확장자 포함 이름
+            # 파일 확장자
             file_ext = file_fullname.split(".")[-1]
+            # 파일명
             file_name = file_fullname[:-(len(file_ext)+1)]
+            # 업로드 날짜
             file_datetime = datetime.fromtimestamp(file_info.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+            # 파일 사이즈
             file_size = str(round(file_info.st_size / (1024 * 1024),1)) + " MB"
             
             self.files.append(
@@ -201,6 +184,44 @@ class MRAState(rx.State):
                     "size": file_size,
                 }
             )
+
+    @rx.event
+    def load_current_file(self):
+        wonbu_no = self.router.page.params.get("wonbu_no", "")
+        mra_id = self.router.page.params.get("mra_id", "")
+
+        # load summaries from jsonl file
+        summary_path = f"{rx.get_upload_dir()}/mra/{wonbu_no}/{mra_id}.jsonl"
+        data = []
+        with open(summary_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                try:
+                    json_data = json.loads(line)
+                    data.append(Summary(**json_data))
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding JSON: {e} on line: {line}")    
+        self.summaries = data
+        
+        # load file info
+        file_path = f"{rx.get_upload_dir()}/mra/{wonbu_no}/{mra_id}.pdf"
+        file_info = os.stat(file_path)
+        # get number of pages
+        reader = PdfReader(file_path)
+        self.current_file_number_of_pages = len(reader.pages)
+        # 파일 FULLNAME (확장자 포함)
+        self.current_file_fullname = file_path.split("/")[-1] # 확장자 포함 이름
+        # 파일 확장자
+        #file_ext = file_fullname.split(".")[-1]
+        # 파일명
+        #file_name = file_fullname[:-(len(file_ext)+1)]
+        # 업로드 날짜
+        self.current_file_datetime = datetime.fromtimestamp(file_info.st_mtime).strftime("%Y-%m-%d")
+        # 파일 사이즈
+        self.current_file_size = str(round(file_info.st_size / (1024 * 1024),1)) + " MB"
+
+    @rx.event
+    def change_current_page(self, page):
+        self.current_file_page = page
 
 
 

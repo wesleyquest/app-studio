@@ -1,6 +1,6 @@
-from .page import health_record_page
+from .page import hra_page
 
 __all__ = [
-    "health_record_page"
+    "hra_page"
 ]
 

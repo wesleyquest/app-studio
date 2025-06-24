@@ -178,7 +178,8 @@ def file_item(file):
                                     }
                                 }
                                 ),
-                            href=f"{MRAState.full_raw_path}{file["name"]}",
+                            #href=f"{MRAState.full_raw_path}{file["name"]}",
+                            href=f"/workers/{MRAState.wonbu_no_var}/mra/{file["name"]}"
                             #href=file_url, #"http://localhost:8000/_upload/mra/1234/sample_4.pdf"
                             #is_external=True,
                             ),
@@ -225,7 +226,20 @@ def list_page() -> rx.Component:
         rx.vstack(
             rx.box(
                 rx.text("업로드 내역 (최근순)"),
-                rx.foreach(MRAState.files, file_item),
+                rx.cond(
+                  MRAState.files.length() > 0,
+                  rx.foreach(MRAState.files, file_item),
+                  rx.vstack(
+                      rx.text("현재 업로드된 파일이 없습니다. 파일을 업로드해 주세요.",
+                              color=rx.color("gray", 9)),
+                      rx.text("No files uploaded",
+                              font_family="NotoSansKR-Bold",
+                              color=rx.color("gray", 9)),
+                      width="100%",
+                      padding_y="10px",
+                      align="center", #vstack에 속한 콘텐츠들 중앙 정렬
+                      ),
+                ),
                 border="solid",
                 border_color=rx.color("gray", 6),
                 border_width="2px",
@@ -238,6 +252,7 @@ def list_page() -> rx.Component:
             align="center", # 큰 박스가 전체 페이지에서 센터
         ),
         padding_top="5em",
+        padding_left="5em",
     )
     return dashboard_page(my_child)
 

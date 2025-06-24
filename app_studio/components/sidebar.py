@@ -25,6 +25,7 @@ def sidebar_item(
             align="center",
             style={
                 "_hover": {
+                    "cursor": "pointer",
                     "bg": rx.color("accent", 4),
                     "color": rx.color("accent", 11),
                 },
@@ -42,8 +43,8 @@ def sidebar_items() -> rx.Component:
         rx.vstack(
         sidebar_item("앱 목록", "layout-dashboard", navigation.routes.HOME_ROUTE),
         sidebar_item("앱 1", "app-window", navigation.routes.RAG_ROUTE),
-        sidebar_item("앱 2", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/mra"),
-        sidebar_item("앱 3", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/hra"),
+        sidebar_item("의무기록", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/mra"),
+        sidebar_item("건강보험", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/hra"),
         #spacing="1",
         width="100%",
     )
@@ -51,20 +52,18 @@ def sidebar_items() -> rx.Component:
 
 def sidebar_dark_mode_toggle_item() -> rx.Component:
     return rx.box(
-        rx.hstack(
+        rx.vstack(
             rx.color_mode_cond(
-                light=rx.icon("moon"),
-                dark=rx.icon("sun"),
+                light = rx.icon("moon", color="black"),
+                dark = rx.icon("sun", color="white"),
             ),
-            rx.text(
-                rx.color_mode_cond(
-                    light="다크 모드로 변경",
-                    dark="라이트 모드로 변경",
-                ),
-            ),
+            rx.color_mode_cond(
+                light = rx.text("다크 모드", size="1", color="black"),
+                dark = rx.text("라이트 모드", size="1", color="white"),
+            ),   
             width="100%",
-            padding_x="0.5rem",
-            padding_y="0.75rem",
+            padding_x="10px",
+            padding_y="10px",
             align="center",
             style={
                 "_hover": {
@@ -72,7 +71,6 @@ def sidebar_dark_mode_toggle_item() -> rx.Component:
                     "bg": rx.color("accent", 4),
                     "color": rx.color("accent", 11),
                 },
-                "color": rx.color("accent", 11),
                 "border-radius": "0.5em",
             },
         ),
@@ -89,6 +87,8 @@ def sidebar_v1() -> rx.Component:
         rx.desktop_only(
             rx.vstack(
                 sidebar_items(),
+                rx.spacer(),
+                sidebar_dark_mode_toggle_item(),
                 #spacing="5",
                 # position="fixed",
                 # left="0px",
@@ -96,13 +96,15 @@ def sidebar_v1() -> rx.Component:
                 # z_index="5",
                 #padding_x="1em",
                 #padding_y="5em",
-                padding_y="70px",
+                padding_top="70px",
+                padding_bottom="10px",
                 bg=rx.color("accent", 1),
                 align="center",
                 # height="100%",
                 height="100vh",
                 #width="100%",
-                width="82px"
+                width="82px",
+                position="fixed", #포지션 고정
             ),
         ),
         rx.mobile_and_tablet(
