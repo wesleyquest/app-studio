@@ -115,9 +115,9 @@ def navbar_v1() -> rx.Component:
                         "Sign Up",
                         size="3",
                         variant="outline",
-                        color_scheme="gray",
+                        #olor_scheme="indigo",
                     ),
-                    rx.button("Log In", size="3", color_scheme="gray"),
+                    rx.button("Log In", size="3"),
                     spacing="4",
                     justify="end",
                 ),
@@ -159,7 +159,9 @@ def navbar_v1() -> rx.Component:
         ),
         # 공통
         bg=rx.color("accent", 1),
-        border_bottom="1px solid #ccc",
+        # border
+        border_bottom="1px solid",
+        border_bottom_color=rx.color("accent", 8),
         padding_y="10px",
         padding_x="19px",
         position="fixed",

@@ -11,6 +11,6 @@ MRA_ROUTE="/workers/[wonbu_no]/mra"
 ### 디테일
 MRA_DETAIL_ROUTE="/workers/[wonbu_no]/mra/[mra_id]"
 ## hra
-HRA_ROUTE="/workers/[wonbu_no]/hra"
-
+#HRA_ROUTE="/workers/[wonbu_no]/hra"
+HRA_ROUTE="/hra"
 
