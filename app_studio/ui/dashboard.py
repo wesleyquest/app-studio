@@ -15,10 +15,11 @@ def dashboard_page(child: rx.Component, *args, **kwargs) -> rx.Component:
                     padding="1em",
                     width="100%",
                     id="my-content-box",
+                    background_color=rx.color("accent", 2),
+                    min_height="100vh"
                 ),
                 width="100%",
             ),
         ),
-
         # rx.color_mode.button(position="bottom-left"),
     )

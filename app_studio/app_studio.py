@@ -29,18 +29,19 @@ app.add_page(index_page,
 
 app.add_page(
     mra.list_page,
-    on_load=[ mra.MRAState.load_files],
+    on_load=[mra.MRAState.load_files],
     route=navigation.routes.MRA_ROUTE,
     title="MRA - LIST")
 
 app.add_page(
     mra.detail_page,
-    on_load=[ mra.MRAState.load_current_file],
+    on_load=[mra.MRAState.load_current_file],
     route=navigation.routes.MRA_DETAIL_ROUTE,
     title="MRA - DETAIL")
 
 app.add_page(
     hra.hra_page,
+    on_load=[hra.HRAState.load_data],
     route=navigation.routes.HRA_ROUTE,
     title="HRA")
 
@@ -52,7 +53,7 @@ app.add_page(
 # test
 app.add_page(
     test.test_page,
-    #on_load=test.page.TestState.load_summaries,
+    on_load=test.page.AppListState.load_apps,
     route="/test",
     title="TEST"
 )

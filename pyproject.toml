@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "dill>=0.3.8",
     "openai>=1.84.0",
+    "pandas>=2.3.0",
     "psycopg2-binary>=2.9.10",
     "pypdf>=5.6.1",
     "pypdf2>=3.0.1",
