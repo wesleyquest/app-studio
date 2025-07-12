@@ -41,8 +41,8 @@ def navbar_items() -> rx.Component:
     return rx.vstack(
         navbar_item("앱 목록", "layout-dashboard", navigation.routes.HOME_ROUTE),
         navbar_item("RAG", "app-window", navigation.routes.RAG_ROUTE),
-        navbar_item("의무기록지 파일 분석", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/mra"),
-        navbar_item("건강보험 내역 분석", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/hra"),
+        navbar_item("의무기록지 파일 분석", "app-window", f"/mra?wonbu={navigation.NavState.wonbu_no}"),
+        navbar_item("건강보험 내역 분석", "app-window", f"/hra?wonbu={navigation.NavState.wonbu_no}"),
         spacing="1",
         width="100%",
     )

@@ -43,8 +43,8 @@ def sidebar_items() -> rx.Component:
         rx.vstack(
         sidebar_item("앱 목록", "layout-dashboard", navigation.routes.HOME_ROUTE),
         sidebar_item("앱 1", "app-window", navigation.routes.RAG_ROUTE),
-        sidebar_item("의무기록", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/mra"),
-        sidebar_item("건강보험", "app-window", f"/workers/{navigation.NavState.wonbu_no_var}/hra"),
+        sidebar_item("의무기록", "app-window", f"/mra?wonbu={navigation.NavState.wonbu_no}"),
+        sidebar_item("건강보험", "app-window", f"/hra?wonbu={navigation.NavState.wonbu_no}"),
         #spacing="1",
         width="100%",
     )

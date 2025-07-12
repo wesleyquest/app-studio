@@ -3,6 +3,7 @@ import pandas as pd
 import asyncio
 #
 from .utils.connections import ygtest_conn
+from ..navigation import NavState
 #
 #
 """
@@ -25,7 +26,7 @@ class HealthRecord(rx.Model, table=False):
     #geupyeo_fg: str
     yeongwan_yn: str
 """
-class HRAState(rx.State):
+class HRAState(NavState):
     data: list[dict] = []
     columns: list[str] = []
     header_columns: list[str] = []
@@ -35,16 +36,17 @@ class HRAState(rx.State):
 
     total_items: int
     offset: int = 0
-    limit: int = 10
+    limit: int = 11
     
     summary: str = ""
     
     tab_value: str = "tab1"
     
-    @rx.var
-    def wonbu_no_var(self) -> str:
-        return self.router.page.params.get("wonbu", "none")
-    
+    alert_button_loading_tf: bool = False
+    #@rx.var
+    #def wonbu_no_var(self) -> str:
+    #    return self.router.page.params.get("wonbu", "none")
+
     @rx.event
     def change_tab_value(self):
         if self.tab_value == "tab2":
@@ -144,3 +146,26 @@ class HRAState(rx.State):
             if d['no'] in self.selected_rows:
                 self.selected_data.append(d)
 
+    """ 
+    원부번호가 입력되지 않을 시, 원부번호 추가 기능
+    """
+    @rx.event
+    async def add_wonbu_no(self, form_data:dict):
+        self.alert_button_loading_tf = True
+        yield
+        NavState.wonbu_no = form_data["wonbu_no"]
+        print(NavState.wonbu_no)
+        
+        yield rx.redirect(f"/hra?wonbu={NavState.wonbu_no}")
+        self.alert_button_loading_tf = False
+
+    alert_open_tf: bool = False
+    @rx.event
+    async def open_alert_dialog(self):
+        yield
+        if self.wonbu_no == "none":
+            self.alert_open_tf = True
+        else:
+            yield
+            self.alert_open_tf = False
+            yield

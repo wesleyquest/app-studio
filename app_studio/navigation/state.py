@@ -4,10 +4,22 @@ from . import routes
 #
 #
 class NavState(rx.State):
-    @rx.var
-    def wonbu_no_var(self) -> str:
+    wonbu_no: str = "none"
+    
+    @rx.event
+    def set_wonbu_no(self):
+        if self.router.page.params.get("wonbu", "none") != "none":
+            self.wonbu_no = self.router.page.params.get("wonbu", "none")
+        print(self.wonbu_no)
+
+#    @rx.var
+#    def wonbu_no_var(self) -> str:
         #print("MRAState wonbu_no var: ",  self.router.page.params.get("wonbu_no", "no data"))
-        return self.router.page.params.get("wonbu_no", "none")
+#        print(self.router.page.params.get("wonbu", "none"))
+#        if self.router.page.params.get("wonbu", "none") == "none":
+#            return self.wonbu_no_var
+#        return self.router.page.params.get("wonbu", "none")
+
 
     #wonbu_no_var: str = "none"
     #def set_wonbu_no_var(self):
