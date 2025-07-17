@@ -3,11 +3,14 @@
 
 ## Getting Started
 #### 1. Installation
+```
 uv sync --frozen --no-install-project --no-dev
 source .venv/bin/activate
+```
 #### 2. Run
+```
 reflex run
-
+```
 ## Development Process
 #### 1. Environment
 uv init --python 3.12
