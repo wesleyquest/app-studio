@@ -4,6 +4,7 @@ from reflex.components.component import NoSSRComponent
 from .state import MRAState
 from ..ui import dashboard_page
 from .. import navigation
+from ..components import insert_wonbu_dialog
 #
 #
 # Component
@@ -298,11 +299,12 @@ def summary_view() -> rx.Component:
 
 def detail_page() -> rx.Component:
     my_child = rx.box(
-        # 네비게이션
+        # navigation
         rx.hstack(
-            rx.icon("app-window", stroke_width="1.5", size=25),
-            rx.text("의무기록지 분석", size="4"),
+            rx.icon("app-window"),
+            rx.text("의무기록 파일 보기 > 의무기록 보기", size="3"),
             align="start",
+            padding_left="0.5em",
             padding_bottom="1em",
         ),
         # 상단 메뉴
@@ -382,6 +384,10 @@ def detail_page() -> rx.Component:
                 ),
                 width="90%"
             ),
+        ),
+        rx.box(
+            insert_wonbu_dialog(MRAState),
+            style={"display": "none"}
         ),
         padding_top="5em",
         padding_left="5em",
