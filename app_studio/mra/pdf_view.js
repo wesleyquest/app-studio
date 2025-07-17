@@ -16,7 +16,7 @@ export function PdfView(fileInfo) {
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(fileInfo.fileInfo[1]);
-    console.log("hello document!")
+    //console.log("hello document!")
   }
 
   // const handlePageClick = (event) => {
@@ -49,9 +49,7 @@ export function PdfView(fileInfo) {
           Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
         </p>
       </div> */}
-      <p className="pdf-current-page">
-        Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
-      </p>
+            
       <Document
         key={fileInfo.fileInfo[0]}
         file={fileInfo.fileInfo[0]}
@@ -59,7 +57,7 @@ export function PdfView(fileInfo) {
         loading="잠시만 기다려 주세요."
         error="다시 시도해 주세요."
       >
-        <Page pageNumber={pageNumber} width="700" />
+        <Page pageNumber={pageNumber} width="750" />
       </Document>
     </>
   );

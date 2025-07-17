@@ -51,6 +51,7 @@ def app_component(app):
         rx.text(app["name"], font_family="NotoSansKR-Bold", size="3", padding_top="0.5em"),
         rx.text(app["content"]),
         width="300px",
+        height="170px",
         border="solid",
         border_width="1px",
         border_color=rx.color("gray", 6),
@@ -65,6 +66,8 @@ def app_component(app):
             #"color": rx.color("accent", 11),
             },
         },
+        on_click=AppListState.go_page(app.name),
+        as_='button',
     )
 
 

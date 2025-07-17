@@ -11,8 +11,21 @@ RAG_ROUTE="/rag"
 MRA_ROUTE="/mra"
 ### 디테일
 #MRA_DETAIL_ROUTE="/workers/[wonbu_no]/mra/[mra_id]"
+MRA_VIEW_ROUTE="/mra/view"
 
 ## hra
 #HRA_ROUTE="/workers/[wonbu_no]/hra"
 HRA_ROUTE="/hra"
+
+## hcr
+HCR_ROUTE="/hcr"
+
+## mcf
+MCF_ROUTE="/mcf"
+
+## tpa
+TPA_ROUTE="/tpa"
+
+## atpa
+ATPA_ROUTE="/atpa"
 

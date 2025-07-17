@@ -3,6 +3,7 @@ import reflex as rx
 from .state import MRAState
 from .. import navigation
 from ..ui import dashboard_page
+from ..components import insert_wonbu_dialog
 #
 #
 def custom_file_upload() -> rx.Component:
@@ -20,13 +21,11 @@ def custom_file_upload() -> rx.Component:
         rx.hstack(
             rx.text(
                 "여기에 파일을 업로드해 주세요",
-                size="4",
             ),
         ),
         rx.text(
             "확장자가 PDF(.pdf)인 파일 1개씩 업로드 가능",
             color_scheme="red",
-            size="3",
             style={
                 "marginTop": "0.5rem",
             },
@@ -46,7 +45,7 @@ def custom_file_upload() -> rx.Component:
         #"width": "100%",
         "width": "800px",
         "height": "12rem",
-        "borderWidth": "2px",
+        "borderWidth": "1px",
         "borderStyle": "dashed",
         "borderColor": "#60a5fa",
         "borderRadius": "0.75rem",
@@ -63,7 +62,7 @@ def custom_file_upload() -> rx.Component:
             "bg": rx.color("accent", 4),
         },
     },
-    box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
+    #box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
     # rx.upload.root prop
     max_files=1,
     accept={
@@ -93,12 +92,12 @@ def file_upload_v1() -> rx.Component:
                                 on_upload_progress=MRAState.handle_upload_progress,
                             ),
                         ),
-                        size="3",
+                        #size="3",
                     ),
                     rx.button(
                         "Cancel",
                         on_click=MRAState.cancel_file,
-                        size="3",
+                        #size="3",
                         variant="outline",
                     ),
                     align="center",
@@ -110,7 +109,7 @@ def file_upload_v1() -> rx.Component:
                 #"width": "100%",
                 "width": "800px",
                 "height": "12rem",
-                "borderWidth": "2px",
+                "borderWidth": "1px",
                 "borderStyle": "dashed",
                 "borderColor": "#60a5fa",
                 "borderRadius": "0.75rem",
@@ -121,7 +120,7 @@ def file_upload_v1() -> rx.Component:
                 "display": "flex",
                 "alignItems": "center",
                 "justifyContent": "center",
-                "boxShadow": "0 1px 2px rgba(0, 0, 0, 0.05)",
+                #"boxShadow": "0 1px 2px rgba(0, 0, 0, 0.05)",
             }                
             ),
             custom_file_upload(),            
@@ -142,47 +141,45 @@ def file_upload_v1() -> rx.Component:
     )
 
 def file_item(file):
-    wonbu_no = MRAState.wonbu_no_var
-    file_name = file["name"]
-    file_ext = file["ext"]
-    file_url = rx.get_upload_url("") + f"/mra/{wonbu_no}/{file_name}.{file_ext}"
+    #wonbu_no = MRAState.wonbu_no_var
+    #file_name = file["name"]
+    #file_ext = file["ext"]
+    #file_url = rx.get_upload_url("") + f"/mra/{wonbu_no}/{file_name}.{file_ext}"
     return rx.box(
                 rx.hstack(
                     rx.box(
                         rx.hstack(
                             rx.image(src="/pdf_icon.png", width="30px"),
-                            rx.text(f"{file["name"]}.{file["ext"]}"),
+                            rx.text(f"{file["name"]}.{file["ext"]}", size="2"),
                             align="center",
                         ),
                         width="50%",
                     ),
                     rx.box(
-                        rx.text(file["datetime"]),
+                        rx.text(file["datetime"], size="2"),
                         text_align="center",
                         width="20%"
                     ),
                     rx.box(
-                        rx.text(file["size"]),
+                        rx.text(file["size"], size="2"),
                         text_align="center",
                         width="15%"
                     ),                        
                     rx.box(
-                        rx.link(
-                            rx.button(
-                                "보 기",
-                                size="3",
-                                style={
-                                    "_hover": {
-                                    "cursor": "pointer",
-                                    "bg": rx.color("accent", 10),
-                                    }
+                        rx.button(
+                            "보 기",
+                            #size="3",
+                            on_click=MRAState.to_mra_view(file["name"]),
+                            style={
+                                "_hover": {
+                                "cursor": "pointer",
+                                "bg": rx.color("accent", 10),
                                 }
-                                ),
-                            #href=f"{MRAState.full_raw_path}{file["name"]}",
-                            href=f"/workers/{MRAState.wonbu_no_var}/mra/{file["name"]}"
-                            #href=file_url, #"http://localhost:8000/_upload/mra/1234/sample_4.pdf"
-                            #is_external=True,
-                            ),
+                            }
+                        ),
+                        #href=f"/workers/{MRAState.wonbu_no}/mra/{file["name"]}"
+                        #href=MRAState.to_mra_view()
+                        #href=f"{navigation.routes.MRA_VIEW_ROUTE}?wonbu={MRAState.wonbu_no}&id={MRAState.mra_id}"
                         #rx.button("보 기", size="2", width="80px"),
                         text_align="end",
                         width="15%"
@@ -201,58 +198,74 @@ def file_item(file):
 
 def list_page() -> rx.Component:
     my_child = rx.box(
-        #rx.image(src="http://localhost:8000/_upload/mra/1234/sample_4.pdf"),
         # navigation
         rx.hstack(
             rx.icon("app-window"),
-            rx.text("의무기록지 파일 분석", size="4"),
+            rx.text("의무기록 파일 보기 > 의무기록 선택", size="3"),
             align="start",
+            padding_left="0.5em",
             padding_bottom="1em",
         ),
         # contents
-        rx.vstack(
-            rx.text("아래 업로드 내역에서 파일을 선택하여 작업을 진행해 주세요 *", 
-                    size="5",
-                    font_family="NotoSansKR-Bold"),
-            align="center",
-            padding="2em",
-        ),
-        rx.vstack(
-            file_upload_v1(),
-            align="center",
-            padding_bottom="1em",
-            width="100%"
-        ),
-        rx.vstack(
+        rx.center(
             rx.box(
-                rx.text("업로드 내역 (최근순)"),
-                rx.cond(
-                  MRAState.files.length() > 0,
-                  rx.foreach(MRAState.files, file_item),
-                  rx.vstack(
-                      rx.text("현재 업로드된 파일이 없습니다. 파일을 업로드해 주세요.",
-                              color=rx.color("gray", 9)),
-                      rx.text("No files uploaded",
-                              font_family="NotoSansKR-Bold",
-                              color=rx.color("gray", 9)),
-                      width="100%",
-                      padding_y="10px",
-                      align="center", #vstack에 속한 콘텐츠들 중앙 정렬
-                      ),
+                rx.vstack(
+                    rx.text("파일을 선택하여 작업을 진행해 주세요 *", 
+                            font_family="NotoSansKR-Bold"),
+                    align="center",
+                    padding_top="1em",
                 ),
-                border="solid",
-                border_color=rx.color("gray", 6),
-                border_width="2px",
+                rx.vstack(
+                    file_upload_v1(),
+                    align="center",
+                    padding_top="1em",
+                    width="100%"
+                ),
+                rx.vstack(
+                    rx.box(
+                        rx.text("최근 업로드 내역", font_family="NotoSansKR-Bold"),
+                        rx.cond(
+                        MRAState.files.length() > 0,
+                        rx.foreach(MRAState.files, file_item),
+                        rx.vstack(
+                            rx.text("현재 업로드된 파일이 없습니다. 파일을 업로드해 주세요.",
+                                    color=rx.color("gray", 9)),
+                            rx.text("No files uploaded",
+                                    font_family="NotoSansKR-Bold",
+                                    color=rx.color("gray", 9)),
+                            width="100%",
+                            padding_y="10px",
+                            align="center", #vstack에 속한 콘텐츠들 중앙 정렬
+                            ),
+                        ),
+                        border="solid",
+                        border_color=rx.color("gray", 6),
+                        border_width="1px",
+                        border_radius="10px",
+                        width="800px", #75%
+                        #height="50vh",
+                        padding="1em",
+                        #box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
+                    ),
+                    padding="1em",
+                    align="center", # 큰 박스가 전체 페이지에서 센터
+                ),
+                width="75%",
+                max_width="900px",
+                min_height="84vh",
+                box_shadow="rgba(0, 0, 0, 0.15) 0px 2px 8px",
+                background_color=rx.color("accent", 1),
                 border_radius="10px",
-                width="800px", #75%
-                #height="50vh",
                 padding="1em",
-                box_shadow = "rgba(0, 0, 0, 0.15) 0px 2px 8px",
-            ),
-            align="center", # 큰 박스가 전체 페이지에서 센터
+                margin_x="1em",
+            )
         ),
-        padding_top="5em",
-        padding_left="5em",
+        rx.box(
+            insert_wonbu_dialog(MRAState),
+            style={"display": "none"}
+        ),
+        padding_top="4em",
+        padding_left="4em",
     )
     return dashboard_page(my_child)
 

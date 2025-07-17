@@ -1,6 +1,7 @@
 import reflex as rx
 #
 from .state import HRAState
+from ..components import insert_wonbu_dialog
 from ..ui import dashboard_page
 from ..navigation import NavState
 #
@@ -135,7 +136,7 @@ def result_skeleton() -> rx.Component:
 def hra_profile_component() -> rx.Component:
     return rx.fragment(
         rx.hstack(
-            rx.text("재해자 상병정보", font_family="NotoSansKR-Bold"), #
+            rx.text("재해자 상병 정보", font_family="NotoSansKR-Bold"), #
             justify="center", #hstack 내부 콘텐츠 정렬
             padding_bottom="1em",
         ),
@@ -235,7 +236,7 @@ def hra_main_component() -> rx.Component:
             width="100%",
             #padding_top="2em",
             )
-
+"""
 def insert_wonbu_dialog() -> rx.Component:
     return rx.alert_dialog.root(
     rx.alert_dialog.trigger(
@@ -263,7 +264,7 @@ def insert_wonbu_dialog() -> rx.Component:
                         #),
                         rx.alert_dialog.action(
                             rx.button(
-                                "입력", type="submit", loading=HRAState.alert_button_loading_tf
+                                "적용", type="submit", loading=HRAState.alert_button_loading_tf
                             ),
                         ),
                         spacing="3",
@@ -279,14 +280,14 @@ def insert_wonbu_dialog() -> rx.Component:
     ),
     open=HRAState.alert_open_tf
 )
-    
+"""  
 
 def hra_page() -> rx.Component:
     my_child = rx.box(
         # navigation
         rx.hstack(
             rx.icon("app-window"),
-            rx.text("건강보험 내역 분석", size="3"),
+            rx.text("건강보험 내역 추출 요약", size="3"),
             align="start",
             padding_left="0.5em",
             padding_bottom="1em",
@@ -320,7 +321,7 @@ def hra_page() -> rx.Component:
                 width="100%"
             ),
             rx.box(
-                insert_wonbu_dialog(),
+                insert_wonbu_dialog(HRAState),
                 style={"display": "none"}
             )
             

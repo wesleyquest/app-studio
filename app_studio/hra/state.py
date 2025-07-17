@@ -42,7 +42,6 @@ class HRAState(NavState):
     
     tab_value: str = "tab1"
     
-    alert_button_loading_tf: bool = False
     #@rx.var
     #def wonbu_no_var(self) -> str:
     #    return self.router.page.params.get("wonbu", "none")
@@ -97,27 +96,32 @@ class HRAState(NavState):
     """
     @rx.event
     def load_data(self):
-        # load
-        df = pd.read_sql(f"""
-        SELECT 
-        no, jaehaegeunroja_name, jinryo_ilja, hospital_name, ipwon_ilsu,
-        jusangbyeong_cd, jusangbyeong_name, busangbyeong_cd, busangbyeong_name, yeongwan_yn
-        FROM hra_sample 
-        WHERE jaehaegeunroja_rgno='0003203NNbXF/7u8uAE2Ilz7mMZPw=='
-        ORDER BY yeongwan_yn DESC, jinryo_ilja DESC
-        """, ygtest_conn)
-        #ygtest_conn.close()
-        
-        # preprocessing : 양쪽 공백 제거
-        df[['jaehaegeunroja_name', 'hospital_name', 'jusangbyeong_cd', 'jusangbyeong_name', 'busangbyeong_cd','busangbyeong_name']] = df[['jaehaegeunroja_name', 'hospital_name', 'jusangbyeong_cd', 'jusangbyeong_name', 'busangbyeong_cd','busangbyeong_name']].apply(lambda x: x.str.strip(), axis = 1)
-        
-        # 선택된 로우 저장 및 뷰에서 제외
-        self.selected_rows = list(df[df['yeongwan_yn']=='Y']['no'])
-        df = df.drop("yeongwan_yn", axis=1)
-        # list 변환 후 저장
-        self.columns = ["no", "jaehaegeunroja_name", "jinryo_ilja", "hospital_name", "ipwon_ilsu", "jusangbyeong_cd", "jusangbyeong_name", "busangbyeong_cd", "busangbyeong_name"]
-        self.header_columns = ["번호", "재해근로자명", "진료일자", "의료기관명", "입원일수", "주상병코드", "주상병명", "부상병코드", "부상병명"]
-        self.data = df.to_dict(orient='records')
+        """ 
+        임시적으로
+        wonbu_no가 'none'이 아닌 경우만 로드
+        """
+        if self.wonbu_no != 'none':
+            # load
+            df = pd.read_sql(f"""
+            SELECT 
+            no, jaehaegeunroja_name, jinryo_ilja, hospital_name, ipwon_ilsu,
+            jusangbyeong_cd, jusangbyeong_name, busangbyeong_cd, busangbyeong_name, yeongwan_yn
+            FROM hra_sample 
+            WHERE jaehaegeunroja_rgno='0003203NNbXF/7u8uAE2Ilz7mMZPw=='
+            ORDER BY yeongwan_yn DESC, jinryo_ilja DESC
+            """, ygtest_conn)
+            #ygtest_conn.close()
+            
+            # preprocessing : 양쪽 공백 제거
+            df[['jaehaegeunroja_name', 'hospital_name', 'jusangbyeong_cd', 'jusangbyeong_name', 'busangbyeong_cd','busangbyeong_name']] = df[['jaehaegeunroja_name', 'hospital_name', 'jusangbyeong_cd', 'jusangbyeong_name', 'busangbyeong_cd','busangbyeong_name']].apply(lambda x: x.str.strip(), axis = 1)
+            
+            # 선택된 로우 저장 및 뷰에서 제외
+            self.selected_rows = list(df[df['yeongwan_yn']=='Y']['no'])
+            df = df.drop("yeongwan_yn", axis=1)
+            # list 변환 후 저장
+            self.columns = ["no", "jaehaegeunroja_name", "jinryo_ilja", "hospital_name", "ipwon_ilsu", "jusangbyeong_cd", "jusangbyeong_name", "busangbyeong_cd", "busangbyeong_name"]
+            self.header_columns = ["번호", "재해근로자명", "진료일자", "의료기관명", "입원일수", "주상병코드", "주상병명", "부상병코드", "부상병명"]
+            self.data = df.to_dict(orient='records')
         
     @rx.event
     def toggle_row_selection(self, index: int) -> None:
@@ -147,25 +151,18 @@ class HRAState(NavState):
                 self.selected_data.append(d)
 
     """ 
-    원부번호가 입력되지 않을 시, 원부번호 추가 기능
+    원부번호가 입력되지 않을 시, 원부번호 추가
     """
+    alert_button_loading_tf: bool = False
     @rx.event
     async def add_wonbu_no(self, form_data:dict):
         self.alert_button_loading_tf = True
         yield
-        NavState.wonbu_no = form_data["wonbu_no"]
-        print(NavState.wonbu_no)
+        self.wonbu_no = form_data["wonbu_no"]
         
-        yield rx.redirect(f"/hra?wonbu={NavState.wonbu_no}")
+        #yield rx.redirect(f"{navigation.routes.HRA_ROUTE}?wonbu={self.wonbu_no}")
+        yield self.to_hra()
         self.alert_button_loading_tf = False
 
-    alert_open_tf: bool = False
-    @rx.event
-    async def open_alert_dialog(self):
-        yield
-        if self.wonbu_no == "none":
-            self.alert_open_tf = True
-        else:
-            yield
-            self.alert_open_tf = False
-            yield
+
+    
